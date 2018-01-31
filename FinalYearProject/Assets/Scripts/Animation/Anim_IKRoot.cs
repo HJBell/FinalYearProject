@@ -11,15 +11,16 @@ public class Anim_IKRoot : MonoBehaviour {
     private Vector2 pPos2D { get { return new Vector2(transform.position.x, transform.position.y); } }
 
     // TESTING
-    Vector3 mousePos;
+    public Transform TargetTrans;
+    Vector3 mTarget;
 
 
     //-----------------------------------Unity Functions-----------------------------------
 
     private void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        var targetPos = mousePos;
+        mTarget = (TargetTrans == null) ? Camera.main.ScreenToWorldPoint(Input.mousePosition) : TargetTrans.position;
+        var targetPos = mTarget;
 
         // Forward kinematics.
         for (int i = mBones.Count - 1; i >= 0; i--)
@@ -56,6 +57,6 @@ public class Anim_IKRoot : MonoBehaviour {
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(mousePos, 0.25f);
+        //Gizmos.DrawSphere(mTarget, 0.25f);
     }
 }

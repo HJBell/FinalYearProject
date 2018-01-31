@@ -28,10 +28,10 @@ public class Anim_IKBone : MonoBehaviour {
         var angConstVectorMin = Quaternion.AngleAxis(AngleConstraintMin, Vector3.forward) * pBoneVector;
         var angConstVectorMax = Quaternion.AngleAxis(AngleConstraintMax, Vector3.forward) * pBoneVector;
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMin.x, angConstVectorMin.y).normalized * 0.2f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMax.x, angConstVectorMax.y).normalized * 0.2f);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMin.x, angConstVectorMin.y).normalized * 0.2f);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMax.x, angConstVectorMax.y).normalized * 0.2f);
     }
 
 
