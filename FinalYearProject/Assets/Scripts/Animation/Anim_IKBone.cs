@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Anim_IKBone : MonoBehaviour {
 
+    [Range(-360f, 360f)]
+    public float AngleConstraintMin = -90f;
+    [Range(-360f, 360f)]
+    public float AngleConstraintMax = 90f;
+
     public Vector2 pStartNode { get { return this.transform.position; } }
     public Vector2 pBoneVector { get { return this.transform.up * Length; } }
     public Vector2 pEndNode { get { return pStartNode + pBoneVector; } }
+    public float pAngle { get { return this.transform.eulerAngles.z; } }
 
     [SerializeField]
-    private float Length = 1f;
+    private float Length = 1f;    
 
 
     //-----------------------------------Unity Functions-----------------------------------
@@ -18,6 +24,14 @@ public class Anim_IKBone : MonoBehaviour {
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawLine(pStartNode, pEndNode);
+
+        var angConstVectorMin = Quaternion.AngleAxis(AngleConstraintMin, Vector3.forward) * pBoneVector;
+        var angConstVectorMax = Quaternion.AngleAxis(AngleConstraintMax, Vector3.forward) * pBoneVector;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMin.x, angConstVectorMin.y).normalized * 0.2f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMax.x, angConstVectorMax.y).normalized * 0.2f);
     }
 
 
@@ -34,6 +48,11 @@ public class Anim_IKBone : MonoBehaviour {
     {
         LookAt(pos);
         transform.Translate(Vector3.up * ((pos - pStartNode).magnitude - Length));
+    }
+
+    public void RotateAroundStartNode(float angle)
+    {
+        transform.Rotate(0f, 0f, angle);
     }
 
 
