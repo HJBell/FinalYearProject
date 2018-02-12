@@ -8,9 +8,8 @@ public class Anim_Body : MonoBehaviour {
     public float Speed = 1f;
     [HideInInspector]
     public float Offset = 0f;
-
-    [SerializeField]
-    private float Amplitude = 0.1f;
+    [HideInInspector]
+    public float Amplitude = 0.1f;
 
     private Vector3 mStartPos;
 

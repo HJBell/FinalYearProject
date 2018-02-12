@@ -5,8 +5,10 @@ using UnityEngine;
 [SelectionBase]
 public class Anim_IKRoot : MonoBehaviour {
 
+    private enum Mode { Smoothness, Accuracy }
+
     [SerializeField]
-    private bool EnableFudgeFactor = false;
+    private Mode IKMode = Mode.Smoothness;
     [SerializeField]
     private List<Anim_IKBone> mBones = new List<Anim_IKBone>();
 
@@ -25,8 +27,8 @@ public class Anim_IKRoot : MonoBehaviour {
         var targetPos = mTarget;
 
 
-        // FUDGE FACTOR...
-        if(EnableFudgeFactor)
+        // FUDGE FACTOR...NEEDS REFACTORING AND COMMENTING
+        if(IKMode == Mode.Accuracy)
         {
             float totalLength = 0f;
             foreach (var bone in mBones)

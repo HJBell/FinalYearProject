@@ -8,11 +8,10 @@ public class Anim_ArmTarget : MonoBehaviour {
     public float Speed = 1f;
     [HideInInspector]
     public float Offset = 0f;
-
-    [SerializeField]
-    private float Amplitude = 1f;
-    [SerializeField]
-    private float Height = 0.5f;
+    [HideInInspector]
+    public float Amplitude = 1f;
+    [HideInInspector]
+    public float Height = 0.5f;
 
     private Vector3 mStartPos;
 
@@ -27,7 +26,7 @@ public class Anim_ArmTarget : MonoBehaviour {
     private void Update()
     {
         var xPos = mStartPos.x + Mathf.Sin((Time.time * Speed) + Offset) * Amplitude;
-        var yPos = mStartPos.y + (Mathf.Sin((Time.time * 2f * Speed) - Mathf.PI / 2f) - 1f) * 0.5f * Height;
+        var yPos = mStartPos.y + (Mathf.Sin((Time.time * 2f * Speed) - Mathf.PI / 2f) + 1f) * Height;
         transform.position = new Vector3(xPos, yPos, 0f);
     }
 }
