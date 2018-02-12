@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Anim_IKBone : MonoBehaviour {
 
+    public float Length = 1f;    
     [Range(-360f, 360f)]
-    public float AngleConstraintMin = -90f;
+    public float MinAngle = -90f;
     [Range(-360f, 360f)]
-    public float AngleConstraintMax = 90f;
+    public float MaxAngle = 90f;
 
-    public Vector2 pStartNode { get { return this.transform.position; } }
     public Vector2 pBoneVector { get { return this.transform.up * Length; } }
+    public Vector2 pStartNode { get { return this.transform.position; } }
     public Vector2 pEndNode { get { return pStartNode + pBoneVector; } }
     public float pAngle { get { return this.transform.eulerAngles.z; } }
-
-    [SerializeField]
-    private float Length = 1f;    
+    public Vector2 pMinAngleVector { get { return (Quaternion.AngleAxis(MinAngle, Vector3.forward) * pBoneVector).normalized; } }
+    public Vector2 pMaxAngleVector { get { return (Quaternion.AngleAxis(MaxAngle, Vector3.forward) * pBoneVector).normalized; } }
 
 
     //-----------------------------------Unity Functions-----------------------------------
@@ -25,13 +25,14 @@ public class Anim_IKBone : MonoBehaviour {
         Gizmos.color = Color.magenta;
         Gizmos.DrawLine(pStartNode, pEndNode);
 
-        var angConstVectorMin = Quaternion.AngleAxis(AngleConstraintMin, Vector3.forward) * pBoneVector;
-        var angConstVectorMax = Quaternion.AngleAxis(AngleConstraintMax, Vector3.forward) * pBoneVector;
-
         //Gizmos.color = Color.blue;
-        //Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMin.x, angConstVectorMin.y).normalized * 0.2f);
+        //Gizmos.DrawLine(pEndNode, pEndNode + pMinAngleVector * 0.2f);
         //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(pEndNode, pEndNode + new Vector2(angConstVectorMax.x, angConstVectorMax.y).normalized * 0.2f);
+        //Gizmos.DrawLine(pEndNode, pEndNode + pMaxAngleVector * 0.2f);
+
+        //var averageAngleLimit = ((pMinAngleVector + pMaxAngleVector) / 2f).normalized;
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawLine(pEndNode, pEndNode - averageAngleLimit * 0.2f);
     }
 
 

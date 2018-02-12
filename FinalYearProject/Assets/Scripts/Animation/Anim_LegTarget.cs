@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Anim_LegTarget : MonoBehaviour {
 
-    [SerializeField]
-    private float Speed = 1f;
-    [SerializeField]
-    [Range(0f, Mathf.PI)]
-    private float Offset = 0f;
+    [HideInInspector]
+    public float Speed = 1f;
+    [HideInInspector]
+    public float Offset = 0f;
+
     [SerializeField]
     private float Amplitude = 1f;
     [SerializeField]
