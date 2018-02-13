@@ -21,24 +21,27 @@ public class Anim_AnimationController : MonoBehaviour {
     [Range(0f, 1f)]
     private float ArmSwing = 0.5f;
     [SerializeField]
-    [Range(0f, 0.2f)]
-    private float ArmBend = 0.01f;
+    [Range(0f, 1f)]
+    private float ArmBend = 0.5f;
     [SerializeField]
     [Range(-1f, 1f)]
     private float LeanForward = 0f;
+
     [Header("Animation Targets")]
     [SerializeField]
-    private Anim_Body Body;
+    private Anim_IKTarget Body;
     [SerializeField]
-    private Anim_LegTarget LegLeft;
+    private Anim_IKTarget LegLeft;
     [SerializeField]
-    private Anim_LegTarget LegRight;
+    private Anim_IKTarget LegRight;
     [SerializeField]
-    private Anim_ArmTarget ArmLeft;
+    private Anim_IKTarget ArmLeft;
     [SerializeField]
-    private Anim_ArmTarget ArmRight;
+    private Anim_IKTarget ArmRight;
     [SerializeField]
     private Transform SpineTarget;
+    [SerializeField]
+    private bool DrawAll = false;
 
 
     //-----------------------------------Unity Functions-----------------------------------
@@ -46,43 +49,53 @@ public class Anim_AnimationController : MonoBehaviour {
     private void Start()
     {
         // Setting limb offsets.
-        LegLeft.Offset = 0f;
-        LegRight.Offset = Mathf.PI;
-        ArmLeft.Offset = 0f;
-        ArmRight.Offset = Mathf.PI;
+        LegLeft.GlobalOffset = 0f;
+        LegRight.GlobalOffset = 1f;
+        ArmLeft.GlobalOffset = 0f;
+        ArmRight.GlobalOffset = 1f;
     }
 
     private void Update()
     {
         // Updating walk speed.
-        Body.Speed = WalkSpeed * 2f;
-        LegLeft.Speed = WalkSpeed;
-        LegRight.Speed = WalkSpeed;
-        ArmLeft.Speed = WalkSpeed;
-        ArmRight.Speed = WalkSpeed;
+        Body.GlobalSpeed = WalkSpeed * 2f;
+        LegLeft.GlobalSpeed = WalkSpeed;
+        LegRight.GlobalSpeed = WalkSpeed;
+        ArmLeft.GlobalSpeed = WalkSpeed;
+        ArmRight.GlobalSpeed = WalkSpeed;
 
         // Updating stride.
-        LegLeft.Amplitude = Stride;
-        LegRight.Amplitude = Stride;
+        LegLeft.XAmplitude = Stride;
+        LegRight.XAmplitude = Stride;
 
         // Updating step height.
-        LegLeft.Height = StepHeight;
-        LegRight.Height = StepHeight;
+        LegLeft.YAmplitude = StepHeight;
+        LegRight.YAmplitude = StepHeight;
 
         // Updating the body bounce height.
-        Body.Amplitude = BounceHeight;
+        Body.YAmplitude = BounceHeight;
 
         // Updating arm swing.
-        ArmLeft.Amplitude = ArmSwing;
-        ArmRight.Amplitude = ArmSwing;
+        ArmLeft.XAmplitude = ArmSwing;
+        ArmRight.XAmplitude = ArmSwing;
 
         // Updating arm bend.
-        ArmLeft.Height = ArmBend;
-        ArmRight.Height = ArmBend;
+        ArmLeft.YAmplitude = ArmBend;
+        ArmRight.YAmplitude = ArmBend;
 
         // Updating the lean.
         var spineTargetPos = SpineTarget.position;
         spineTargetPos.x = transform.position.x - LeanForward;
         SpineTarget.position = spineTargetPos;
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Updating draw all.
+        LegLeft.DrawPath = DrawAll;
+        LegRight.DrawPath = DrawAll;
+        ArmLeft.DrawPath = DrawAll;
+        ArmRight.DrawPath = DrawAll;
+        Body.DrawPath = DrawAll;
     }
 }

@@ -14,6 +14,7 @@ public class Anim_LegTarget : MonoBehaviour {
     public float Height = 0.5f;
 
     private Vector3 mStartPos;
+    private float mAnimationPhase = 0f;
 
 
     //-----------------------------------Unity Functions-----------------------------------
@@ -25,8 +26,10 @@ public class Anim_LegTarget : MonoBehaviour {
 
     private void Update()
     {
-        var xPos = mStartPos.x + Mathf.Sin((Time.time * Speed) + Offset) * Amplitude;
-        var yPos = mStartPos.y + Mathf.Clamp(Mathf.Sin((Time.time * Speed) - Mathf.PI/2f + Offset) * Height, 0f, Height);
+        mAnimationPhase = Mathf.Repeat(mAnimationPhase + Time.deltaTime * Speed, Mathf.PI * 2f);
+
+        var xPos = mStartPos.x + Mathf.Sin(mAnimationPhase + Offset) * Amplitude;
+        var yPos = mStartPos.y + Mathf.Clamp(Mathf.Sin(mAnimationPhase - Mathf.PI/2f + Offset) * Height, 0f, Height);
         transform.position = new Vector3(xPos, yPos, 0f);
     }
 }
