@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Anim_AnimationController : MonoBehaviour {
-
+    
     [Header("Character Settings")]
     [SerializeField]
     [Range(0f, 20f)]
@@ -25,7 +25,10 @@ public class Anim_AnimationController : MonoBehaviour {
     private float ArmBend = 0.5f;
     [SerializeField]
     [Range(-1f, 1f)]
-    private float LeanForward = 0f;
+    private float Lean = 0f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float StartPhaseTime = 0f;
 
     [Header("Animation Targets")]
     [SerializeField]
@@ -39,24 +42,35 @@ public class Anim_AnimationController : MonoBehaviour {
     [SerializeField]
     private Anim_IKTarget ArmRight;
     [SerializeField]
-    private Transform SpineTarget;
+    private Anim_IKTarget Spine;
     [SerializeField]
-    private bool DrawAll = false;
+    private bool DrawAllPaths = false;
+
 
 
     //-----------------------------------Unity Functions-----------------------------------
 
     private void Start()
     {
-        // Setting limb offsets.
-        LegLeft.GlobalOffset = 0f;
-        LegRight.GlobalOffset = 1f;
-        ArmLeft.GlobalOffset = 0f;
-        ArmRight.GlobalOffset = 1f;
+        UpdateTargetsProperties();   
     }
 
-    private void Update()
+
+    //-----------------------------------Public Functions----------------------------------
+
+    public void UpdateTargetsProperties()
     {
+        // Setting global offsets.
+        if (!Application.isPlaying)
+        {
+            Body.GlobalOffset = StartPhaseTime;
+            LegLeft.GlobalOffset = StartPhaseTime;
+            LegRight.GlobalOffset = StartPhaseTime + 0.5f;
+            ArmLeft.GlobalOffset = StartPhaseTime;
+            ArmRight.GlobalOffset = StartPhaseTime + 0.5f;
+            Spine.GlobalOffset = StartPhaseTime;
+        }        
+
         // Updating walk speed.
         Body.GlobalSpeed = WalkSpeed * 2f;
         LegLeft.GlobalSpeed = WalkSpeed;
@@ -84,18 +98,22 @@ public class Anim_AnimationController : MonoBehaviour {
         ArmRight.YAmplitude = ArmBend;
 
         // Updating the lean.
-        var spineTargetPos = SpineTarget.position;
-        spineTargetPos.x = transform.position.x - LeanForward;
-        SpineTarget.position = spineTargetPos;
+        Spine.GlobalOffset = Lean * 0.25f;
     }
 
-    private void OnDrawGizmos()
+    public void UpdateDrawAllPaths()
     {
-        // Updating draw all.
-        LegLeft.DrawPath = DrawAll;
-        LegRight.DrawPath = DrawAll;
-        ArmLeft.DrawPath = DrawAll;
-        ArmRight.DrawPath = DrawAll;
-        Body.DrawPath = DrawAll;
+        LegLeft.DrawPath = DrawAllPaths;
+        LegRight.DrawPath = DrawAllPaths;
+        ArmLeft.DrawPath = DrawAllPaths;
+        ArmRight.DrawPath = DrawAllPaths;
+        Body.DrawPath = DrawAllPaths;
+        Spine.DrawPath = DrawAllPaths;
+    }
+
+    public void UpdateIKRoots()
+    {
+        foreach (var root in GetComponentsInChildren<Anim_IKRoot>())
+            root.UpdateRoot(10);
     }
 }
