@@ -17,6 +17,20 @@ public class Anim_IKBone : MonoBehaviour {
     public Vector2 pMinAngleVector { get { return (Quaternion.AngleAxis(MinAngle, Vector3.forward) * pBoneVector).normalized; } }
     public Vector2 pMaxAngleVector { get { return (Quaternion.AngleAxis(MaxAngle, Vector3.forward) * pBoneVector).normalized; } }
 
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float GraphicWidth = 0.1f;
+    [SerializeField]
+    private Color GraphicColour = Color.white;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float GraphicOverextension = 0f;
+    [SerializeField]
+    private int GraphicOrderIndex = 1;
+
+    [HideInInspector, SerializeField]
+    private Transform mGraphicTransform;
+
 
     //-----------------------------------Unity Functions-----------------------------------
 
@@ -43,17 +57,47 @@ public class Anim_IKBone : MonoBehaviour {
         var currentEndNode = pEndNode;
         this.transform.position = pos;
         LookAt(currentEndNode);
+        UpdateGraphic();
     }
 
     public void PositionEndNode(Vector2 pos)
     {
         LookAt(pos);
         transform.Translate(Vector3.up * ((pos - pStartNode).magnitude - Length));
+        UpdateGraphic();
     }
 
     public void RotateAroundStartNode(float angle)
     {
         transform.Rotate(0f, 0f, angle);
+        UpdateGraphic();
+    }
+
+    public void UpdateGraphic()
+    {
+        if (mGraphicTransform == null)
+        {
+            mGraphicTransform = (Instantiate(Resources.Load("Res_LimbGraphic")) as GameObject).transform;
+            mGraphicTransform.SetParent(transform);
+
+            //var sprites = GetComponentsInChildren<SpriteRenderer>();
+
+            //if(sprites.Length > 0)
+            //{
+            //    for (int i = 0; i < sprites.Length - 1; i++)
+            //        DestroyImmediate(sprites[i].gameObject);
+            //    mGraphicTransform = sprites[0].transform;
+            //}
+            //else
+            //{
+
+            //}            
+        }
+        mGraphicTransform.GetComponent<SpriteRenderer>().color = GraphicColour;
+        mGraphicTransform.GetComponent<SpriteRenderer>().sortingOrder = GraphicOrderIndex;
+        mGraphicTransform.position = pStartNode + pBoneVector * 0.5f;
+        mGraphicTransform.rotation = Quaternion.Euler(0f, 0f, pAngle);
+        mGraphicTransform.localScale = new Vector3(GraphicWidth, Length + GraphicOverextension, 1f);
     }
 
 
