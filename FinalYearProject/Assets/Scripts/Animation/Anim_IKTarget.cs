@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Anim_IKTarget : MonoBehaviour {
 
-    public Vector3 pPosition { get { return GetPointOnPath(mXPhase, mYPhase); } }
+    public Vector3 pPosition { get { return GetPointOnPath(mPhase); } }
 
     [Header("Global Settings")]
     public float GlobalSpeed = 1f;
@@ -13,7 +13,7 @@ public class Anim_IKTarget : MonoBehaviour {
     public bool DrawPath = false;
 
     [Header("X Settings")]
-    public float XSpeed = 1f;
+    public float XFrequency = 1f;
     [Range(0f, 1f)]
     public float XOffset = 0f;
     [Range(-1f, 1f)]
@@ -23,7 +23,7 @@ public class Anim_IKTarget : MonoBehaviour {
     public float XAmplitude = 1f;
 
     [Header("Y Settings")]
-    public float YSpeed = 1f;
+    public float YFrequency = 1f;
     [Range(0f, 1f)]
     public float YOffset = 0.5f;
     [Range(-1f, 1f)]
@@ -32,31 +32,27 @@ public class Anim_IKTarget : MonoBehaviour {
     public float YMin = -1f;
     public float YAmplitude = 1f;
 
-    private float mXPhase = 0f;
-    private float mYPhase = 0f;
+    private float mPhase = 0f;
 
 
     //-----------------------------------Unity Functions-----------------------------------
 
     private void Update()
     {
-        mXPhase = Mathf.Repeat(mXPhase + Time.deltaTime * GlobalSpeed * XSpeed, Mathf.PI * 2f);
-        mYPhase = Mathf.Repeat(mYPhase + Time.deltaTime * GlobalSpeed * YSpeed, Mathf.PI * 2f);
+        mPhase = Mathf.Repeat(mPhase + Time.deltaTime * GlobalSpeed, Mathf.PI * 2f);
     }
 
     private void OnDrawGizmos()
     {
         if (!DrawPath) return;
 
-        var startPoint = GetPointOnPath(0f, 0f);
-        var previousPoint = startPoint;
-
         int pathResolution = 50;
+        var previousPoint = GetPointOnPath(0f);
         for(int i = 1; i < pathResolution; i++)
         {
             var phase = ((float)i / (float)pathResolution) * Mathf.PI * 2f;
-            var currentPoint = GetPointOnPath(phase, phase);
-            Gizmos.DrawLine(previousPoint, (i == pathResolution-1) ? startPoint : currentPoint);
+            var currentPoint = GetPointOnPath(phase);
+            Gizmos.DrawLine(previousPoint, currentPoint);
             previousPoint = currentPoint;
         }
 
@@ -66,10 +62,10 @@ public class Anim_IKTarget : MonoBehaviour {
 
     //-----------------------------------Private Functions----------------------------------
 
-    private Vector3 GetPointOnPath(float xPhase, float yPhase)
+    private Vector3 GetPointOnPath(float phase)
     {
-        var xPos = transform.position.x + Mathf.Clamp(Mathf.Sin(xPhase + GlobalOffset * 2f * Mathf.PI + XOffset * 2f * Mathf.PI), XMin, XMax) * XAmplitude;
-        var yPos = transform.position.y + Mathf.Clamp(Mathf.Sin(yPhase + GlobalOffset * 2f * Mathf.PI + YOffset * 2f * Mathf.PI), YMin, YMax) * YAmplitude;
+        var xPos = transform.position.x + Mathf.Clamp(Mathf.Sin(phase * XFrequency + GlobalOffset * XFrequency * 2f * Mathf.PI + XOffset * 2f * Mathf.PI), XMin, XMax) * XAmplitude;
+        var yPos = transform.position.y + Mathf.Clamp(Mathf.Sin(phase * YFrequency + GlobalOffset * YFrequency * 2f * Mathf.PI + YOffset * 2f * Mathf.PI), YMin, YMax) * YAmplitude;
 
         return new Vector3(xPos, yPos, 0f);
     }

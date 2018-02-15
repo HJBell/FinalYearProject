@@ -39,10 +39,10 @@ public class Anim_IKBone : MonoBehaviour {
         Gizmos.color = Color.magenta;
         Gizmos.DrawLine(pStartNode, pEndNode);
 
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawLine(pEndNode, pEndNode + pMinAngleVector * 0.2f);
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(pEndNode, pEndNode + pMaxAngleVector * 0.2f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(pEndNode, pEndNode + pMinAngleVector * 0.2f);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(pEndNode, pEndNode + pMaxAngleVector * 0.2f);
 
         //var averageAngleLimit = ((pMinAngleVector + pMaxAngleVector) / 2f).normalized;
         //Gizmos.color = Color.green;
