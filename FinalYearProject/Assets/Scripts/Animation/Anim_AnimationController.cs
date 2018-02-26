@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Anim_AnimationController : MonoBehaviour {
     
+    public float pWalkSpeed { get { return WalkSpeed; } }
+
     [Header("Character Settings")]
     [SerializeField]
-    [Range(0f, 20f)]
-    private float WalkSpeed = 4f;
+    [Range(0f, 4f)]
+    private float WalkSpeed = 0.75f;
     [SerializeField]
     [Range(0.25f, 1f)]
     private float Stride = 0.5f;
@@ -24,11 +26,17 @@ public class Anim_AnimationController : MonoBehaviour {
     [Range(0f, 1f)]
     private float ArmBend = 0.5f;
     [SerializeField]
-    [Range(-1f, 1f)]
+    [Range(0f, 0.99f)]
     private float Lean = 0f;
     [SerializeField]
     [Range(0f, 1f)]
-    private float StartPhaseTime = 0f;
+    private float Hunch = 0f;
+    [SerializeField]
+    [Range(0f, 0.99f)]
+    private float HeadTilt = 0f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float StartPhase = 0f;
 
     [Header("Animation Targets")]
     [SerializeField]
@@ -44,6 +52,8 @@ public class Anim_AnimationController : MonoBehaviour {
     [SerializeField]
     private Anim_IKTarget Spine;
     [SerializeField]
+    private Anim_IKTarget Head;
+    [SerializeField]
     private bool DrawAllPaths = false;
 
 
@@ -52,6 +62,7 @@ public class Anim_AnimationController : MonoBehaviour {
 
     private void Start()
     {
+        UpdateStartPhases();
         UpdateTargetsProperties();   
     }
 
@@ -62,14 +73,7 @@ public class Anim_AnimationController : MonoBehaviour {
     {
         // Setting global offsets.
         if (!Application.isPlaying)
-        {
-            Body.GlobalOffset = StartPhaseTime;
-            LegLeft.GlobalOffset = StartPhaseTime;
-            LegRight.GlobalOffset = StartPhaseTime + 0.5f;
-            ArmLeft.GlobalOffset = StartPhaseTime;
-            ArmRight.GlobalOffset = StartPhaseTime + 0.5f;
-            Spine.GlobalOffset = StartPhaseTime;
-        }        
+            UpdateStartPhases();       
 
         // Updating walk speed.
         Body.GlobalSpeed = WalkSpeed * 2f;
@@ -97,8 +101,13 @@ public class Anim_AnimationController : MonoBehaviour {
         ArmLeft.YAmplitude = ArmBend;
         ArmRight.YAmplitude = ArmBend;
 
-        // Updating the lean.
-        Spine.GlobalOffset = Lean * 0.25f;
+        // Updating the spine.
+        Spine.pPhase = Lean;
+        Spine.XAmplitude = 0.85f * (0.6f + (1f - Hunch) * 0.4f);
+        Spine.YAmplitude = 0.85f * (0.8f + (1f - Hunch) * 0.2f);
+
+        // Updating the head.
+        Head.pPhase = HeadTilt;
     }
 
     public void UpdateDrawAllPaths()
@@ -115,5 +124,17 @@ public class Anim_AnimationController : MonoBehaviour {
     {
         foreach (var root in GetComponentsInChildren<Anim_IKRoot>())
             root.UpdateRoot(10);
+    }
+
+
+    //----------------------------------Private Functions----------------------------------
+
+    private void UpdateStartPhases()
+    {
+        Body.pPhase = StartPhase;
+        LegLeft.pPhase = StartPhase + 0.5f;
+        LegRight.pPhase = StartPhase;
+        ArmLeft.pPhase = StartPhase;
+        ArmRight.pPhase = StartPhase + 0.5f;
     }
 }
