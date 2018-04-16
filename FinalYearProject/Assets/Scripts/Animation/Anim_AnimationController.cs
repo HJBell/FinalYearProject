@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Anim_AnimationController : MonoBehaviour {
-    
-    public float pWalkSpeed { get { return WalkSpeed; } }
+
+    public float pWalkSpeed { get { return WalkSpeed; } set { WalkSpeed = Mathf.Clamp(value, 0f, 4f); UpdateTargetsProperties(); } }
+    public float pStride { get { return Stride; } set { Stride = Mathf.Clamp(value, 0.25f, 1f); UpdateTargetsProperties(); } }
+    public float pStepHeight { get { return StepHeight; } set { StepHeight = Mathf.Clamp(value, 0f, 1f); UpdateTargetsProperties(); } }
+    public float pBounceHeight { get { return BounceHeight; } set { BounceHeight = Mathf.Clamp(value, 0f, 1f); UpdateTargetsProperties(); } }
+    public float pArmSwing { get { return ArmSwing; } set { ArmSwing = Mathf.Clamp(value, 0f, 1f); UpdateTargetsProperties(); } }
+    public float pArmBend { get { return ArmBend; } set { ArmBend = Mathf.Clamp(value, 0f, 1f); UpdateTargetsProperties(); } }
+    public float pLean { get { return Lean; } set { Lean = Mathf.Clamp(value, 0f, 0.99f); UpdateTargetsProperties(); } }
+    public float pHunch { get { return Hunch; } set { Hunch = Mathf.Clamp(value, 0f, 1f); UpdateTargetsProperties(); } }
+    public float pHeadTilt { get { return HeadTilt; } set { HeadTilt = Mathf.Clamp(value, 0f, 0.99f); UpdateTargetsProperties(); } }
 
     [Header("Character Settings")]
     [SerializeField]
@@ -55,7 +63,6 @@ public class Anim_AnimationController : MonoBehaviour {
     private Anim_IKTarget Head;
     [SerializeField]
     private bool DrawAllPaths = false;
-
 
 
     //-----------------------------------Unity Functions-----------------------------------
@@ -118,6 +125,7 @@ public class Anim_AnimationController : MonoBehaviour {
         ArmRight.DrawPath = DrawAllPaths;
         Body.DrawPath = DrawAllPaths;
         Spine.DrawPath = DrawAllPaths;
+        Head.DrawPath = DrawAllPaths;
     }
 
     public void UpdateIKRoots()
