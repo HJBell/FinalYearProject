@@ -33,10 +33,15 @@ public class Emot_EmotionController : MonoBehaviour {
 
     public float GetAnimPropertyValue(string propertyName)
     {
-        float total = 0f;
+        float weightedPropertyTotal = 0f;
+        float moodTotal = 0f;
         foreach (var scale in EmotionScales)
-            total += scale.GetAnimPropertyValue(propertyName);
-        return total /= EmotionScales.Count;
+        {
+            var adjustedMoodValue = Mathf.Max(Mathf.Abs(scale.MoodValue), 0.001f);
+            weightedPropertyTotal += scale.GetAnimPropertyValue(propertyName) * adjustedMoodValue;
+            moodTotal += adjustedMoodValue;
+        }
+        return weightedPropertyTotal /= moodTotal;
     }
 
 
