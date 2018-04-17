@@ -1,7 +1,10 @@
 <Personality>
-	<EmotionScaleList>
-    <EmotionScale Negative="Sadness" Positive="Happiness" Value="0"/>
-    <EmotionScale Negative="Fear" Positive="Confidence" Value="0"/>
-    <EmotionScale Negative="Anger" Positive="Peace" Value="0"/>
-	</EmotionScaleList>
+	<Emotions>
+    <Emotion Name="Happiness" Value="0.5"/>
+    <Emotion Name="Confidence" Value="0.5"/>
+    <Emotion Name="Peace" Value="0.5"/>
+    <Emotion Name="Sadness" Value="0.5"/>
+    <Emotion Name="Fear" Value="0.5"/>
+    <Emotion Name="Anger" Value="0.5"/>
+	</Emotions>
 </Personality>

@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Emot_EmotionScale {
-
-    public string NegativeName;
-    public string PositiveName;
-    [Range(-1.0f, 1.0f)]
+public class Emot_Emotion {
+    
+    public string Name;
+    [Range(0f, 1f)]
     public float PersonalityValue;
-    [Range(-1.0f, 1.0f)]
-    public float MoodValue;
-    public Dictionary<string, Emot_AnimMapping> AnimMappings = new Dictionary<string, Emot_AnimMapping>();
-
+    [Range(0f, 1f)]
+    public float MoodValue;    
+    public Dictionary<string, float> AnimMappings = new Dictionary<string, float>();
 
     //-----------------------------------Public Functions----------------------------------
 
-    public Emot_EmotionScale()
+    public Emot_Emotion(string name)
     {
+        Name = name;
         PersonalityValue = 0.0f;
         MoodValue = 0.0f;
     }
@@ -31,10 +30,5 @@ public class Emot_EmotionScale {
     {
         PersonalityValue = Mathf.Clamp(value, -1.0f, 1.0f);
         MoodValue = PersonalityValue;
-    }
-
-    public float GetAnimPropertyValue(string propertyName)
-    {
-        return AnimMappings[propertyName].GetValue(MoodValue * 0.5f + 0.5f);
     }
 }

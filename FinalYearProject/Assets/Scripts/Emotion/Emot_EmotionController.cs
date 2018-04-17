@@ -5,8 +5,9 @@ using System.Xml;
 
 public class Emot_EmotionController : MonoBehaviour {
 
-    [SerializeField]
-    private List<Emot_EmotionScale> EmotionScales = new List<Emot_EmotionScale>();
+    [HideInInspector]
+    public List<Emot_Emotion> Emotions = new List<Emot_Emotion>();
+
     [SerializeField]
     private TextAsset EmotConfigXML;
     [SerializeField]
@@ -24,8 +25,8 @@ public class Emot_EmotionController : MonoBehaviour {
 
     private void Update()
     {
-        foreach (var emotionScale in EmotionScales)
-            emotionScale.UpdateValues();
+        foreach (var emotion in Emotions)
+            emotion.UpdateValues();
     }
 
 
@@ -35,13 +36,53 @@ public class Emot_EmotionController : MonoBehaviour {
     {
         float weightedPropertyTotal = 0f;
         float moodTotal = 0f;
-        foreach (var scale in EmotionScales)
+
+        foreach (var emotion in Emotions)
         {
-            var adjustedMoodValue = Mathf.Max(Mathf.Abs(scale.MoodValue), 0.001f);
-            weightedPropertyTotal += scale.GetAnimPropertyValue(propertyName) * adjustedMoodValue;
+            var adjustedMoodValue = Mathf.Max(emotion.MoodValue, 0.001f);
+            weightedPropertyTotal += emotion.AnimMappings[propertyName] * adjustedMoodValue;
             moodTotal += adjustedMoodValue;
         }
+        
         return weightedPropertyTotal /= moodTotal;
+    }
+
+    public void NormalisePersonality(string emotionToPreserveName)
+    {
+        Emot_Emotion emotionToScale = null;
+        List<Emot_Emotion> allOtherEmotions = new List<Emot_Emotion>();
+
+        foreach (var emotion in Emotions)
+        {
+            if (emotion.Name == emotionToPreserveName)
+                emotionToScale = emotion;
+            else
+                allOtherEmotions.Add(emotion);
+        }
+
+        // Find amount to change.
+        float targetRemainder = 1f - emotionToScale.PersonalityValue;
+        float remainder = 0f;
+        foreach (var emotion in allOtherEmotions)
+            remainder += emotion.PersonalityValue;
+        float delta = targetRemainder - remainder;
+
+        // Scale values.
+        foreach (var emotion in allOtherEmotions)
+        {
+            if (targetRemainder <= float.Epsilon)
+                emotion.PersonalityValue = 0f;
+            else
+            {
+                float ratio = 0f;
+                if (remainder <= float.Epsilon)
+                    ratio = 1f / allOtherEmotions.Count;
+                else
+                    ratio = emotion.PersonalityValue / remainder;
+
+                emotion.PersonalityValue += delta * ratio;
+            }            
+        }
     }
 
 
@@ -51,43 +92,39 @@ public class Emot_EmotionController : MonoBehaviour {
     {
         var xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(asset.text);
-
-        var xmlEmotionScales = xmlDoc.GetElementsByTagName("EmotionScale");
-
-        foreach (XmlNode xmlEmotionScale in xmlEmotionScales)
-        {
-            var emotionScale = new Emot_EmotionScale();
-            emotionScale.NegativeName = xmlEmotionScale.Attributes["Negative"].Value;
-            emotionScale.PositiveName = xmlEmotionScale.Attributes["Positive"].Value;
-
-            var xmlScaleProperties = xmlEmotionScale.ChildNodes;
-
-            foreach(XmlNode xmlScaleProperty in xmlScaleProperties)
-            {
-                Emot_AnimMapping animMapping = new Emot_AnimMapping(float.Parse(xmlScaleProperty.Attributes["Min"].Value),
-                                                                    float.Parse(xmlScaleProperty.Attributes["Max"].Value));
-                emotionScale.AnimMappings.Add(xmlScaleProperty.Attributes["Name"].Value, animMapping);
-            }
-
-            EmotionScales.Add(emotionScale);
-        }
+        LoadEmotionsFromXMLNode(xmlDoc.GetElementsByTagName("Emotions").Item(0), ref Emotions);
     }
 
     private void LoadPersonality(TextAsset asset)
     {
         var xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(asset.text);
+        LoadPersonalityFromXMLNode(xmlDoc.GetElementsByTagName("Emotions").Item(0), ref Emotions);
+    }
 
-        var xmlEmotionScales = xmlDoc.GetElementsByTagName("EmotionScale");
-
-        foreach (XmlNode xmlEmotionScale in xmlEmotionScales)
+    private void LoadEmotionsFromXMLNode(XmlNode parentNode, ref List<Emot_Emotion> emotionList)
+    {
+        foreach (XmlNode xmlEmotion in parentNode.ChildNodes)
         {
-            foreach(var emotionScale in EmotionScales)
+            var emotion = new Emot_Emotion(xmlEmotion.Attributes["Name"].Value);
+            var xmlAnimMappings = xmlEmotion.ChildNodes;
+
+            foreach (XmlNode xmlAnimMapping in xmlAnimMappings)
+                emotion.AnimMappings.Add(xmlAnimMapping.Attributes["Name"].Value, float.Parse(xmlAnimMapping.Attributes["Value"].Value));
+
+            emotionList.Add(emotion);
+        }
+    }
+
+    private void LoadPersonalityFromXMLNode(XmlNode parentNode, ref List<Emot_Emotion> emotionList)
+    {
+        foreach (XmlNode xmlEmotion in parentNode.ChildNodes)
+        {
+            foreach (var emotion in emotionList)
             {
-                if(emotionScale.NegativeName == xmlEmotionScale.Attributes["Negative"].Value &&
-                   emotionScale.PositiveName == xmlEmotionScale.Attributes["Positive"].Value)
+                if (emotion.Name == xmlEmotion.Attributes["Name"].Value)
                 {
-                    emotionScale.SetPersonalityValue(float.Parse(xmlEmotionScale.Attributes["Value"].Value));
+                    emotion.SetPersonalityValue(float.Parse(xmlEmotion.Attributes["Value"].Value));
                     break;
                 }
             }

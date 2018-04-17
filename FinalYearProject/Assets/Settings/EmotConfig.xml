@@ -1,37 +1,70 @@
 <EmotConfig>
-	<EmotionScaleList>
-		<EmotionScale Negative="Sadness" Positive="Happiness">
-			<AnimMapping Name="WalkSpeed" Min="0.5" Max="0.85"/>
-			<AnimMapping Name="Stride" Min="0.37" Max="0.42"/>
-      <AnimMapping Name="StepHeight" Min="0.07" Max="0.16"/>
-      <AnimMapping Name="BounceHeight" Min="0.04" Max="0.06"/>
-      <AnimMapping Name="ArmSwing" Min="0.25" Max="0.6"/>
-      <AnimMapping Name="ArmBend" Min="0.07" Max="0.48"/>
-      <AnimMapping Name="Lean" Min="0.78" Max="0.22"/>
-      <AnimMapping Name="Hunch" Min="1" Max="0"/>
-      <AnimMapping Name="HeadTilt" Min="0.75" Max="0.26"/>
-		</EmotionScale>
-    <EmotionScale Negative="Fear" Positive="Confidence">
-      <AnimMapping Name="WalkSpeed" Min="1" Max="0.8"/>
-      <AnimMapping Name="Stride" Min="0.294" Max="0.6"/>
-      <AnimMapping Name="StepHeight" Min="0.099" Max="0.28"/>
-      <AnimMapping Name="BounceHeight" Min="0.037" Max="0.083"/>
-      <AnimMapping Name="ArmSwing" Min="0.094" Max="0.674"/>
-      <AnimMapping Name="ArmBend" Min="0" Max="0.5"/>
-      <AnimMapping Name="Lean" Min="0.7" Max="0.154"/>
-      <AnimMapping Name="Hunch" Min="1" Max="0"/>
-      <AnimMapping Name="HeadTilt" Min="0.539" Max="0.245"/>
-    </EmotionScale>
-    <EmotionScale Negative="Anger" Positive="Peace">
-      <AnimMapping Name="WalkSpeed" Min="0.67" Max="0.65"/>
-      <AnimMapping Name="Stride" Min="0.63" Max="0.443"/>
-      <AnimMapping Name="StepHeight" Min="0.31" Max="0.172"/>
-      <AnimMapping Name="BounceHeight" Min="0.09" Max="0.05"/>
-      <AnimMapping Name="ArmSwing" Min="0.721" Max="0.431"/>
-      <AnimMapping Name="ArmBend" Min="0.163" Max="0.343"/>
-      <AnimMapping Name="Lean" Min="0.709" Max="0.324"/>
-      <AnimMapping Name="Hunch" Min="0" Max="0"/>
-      <AnimMapping Name="HeadTilt" Min="0.455" Max="0.3"/>
-    </EmotionScale>
-	</EmotionScaleList>
+	<Emotions>
+		<Emotion Name="Happiness">
+			<AnimMapping Name="WalkSpeed" Value="0.85"/>
+			<AnimMapping Name="Stride" Value="0.42"/>
+      <AnimMapping Name="StepHeight" Value="0.16"/>
+      <AnimMapping Name="BounceHeight" Value="0.06"/>
+      <AnimMapping Name="ArmSwing" Value="0.6"/>
+      <AnimMapping Name="ArmBend" Value="0.48"/>
+      <AnimMapping Name="Lean" Value="0.22"/>
+      <AnimMapping Name="Hunch" Value="0"/>
+      <AnimMapping Name="HeadTilt" Value="0.26"/>
+		</Emotion>
+    <Emotion Name="Confidence">
+      <AnimMapping Name="WalkSpeed" Value="0.8"/>
+      <AnimMapping Name="Stride" Value="0.6"/>
+      <AnimMapping Name="StepHeight" Value="0.28"/>
+      <AnimMapping Name="BounceHeight" Value="0.083"/>
+      <AnimMapping Name="ArmSwing" Value="0.674"/>
+      <AnimMapping Name="ArmBend" Value="0.5"/>
+      <AnimMapping Name="Lean" Value="0.154"/>
+      <AnimMapping Name="Hunch" Value="0"/>
+      <AnimMapping Name="HeadTilt" Value="0.245"/>
+    </Emotion>
+    <Emotion Name="Peace">
+      <AnimMapping Name="WalkSpeed" Value="0.65"/>
+      <AnimMapping Name="Stride" Value="0.443"/>
+      <AnimMapping Name="StepHeight" Value="0.172"/>
+      <AnimMapping Name="BounceHeight" Value="0.05"/>
+      <AnimMapping Name="ArmSwing" Value="0.431"/>
+      <AnimMapping Name="ArmBend" Value="0.343"/>
+      <AnimMapping Name="Lean" Value="0.324"/>
+      <AnimMapping Name="Hunch" Value="0"/>
+      <AnimMapping Name="HeadTilt" Value="0.3"/>
+    </Emotion>
+    <Emotion Name="Sadness">
+      <AnimMapping Name="WalkSpeed" Value="0.5"/>
+      <AnimMapping Name="Stride" Value="0.37"/>
+      <AnimMapping Name="StepHeight" Value="0.07"/>
+      <AnimMapping Name="BounceHeight" Value="0.04"/>
+      <AnimMapping Name="ArmSwing" Value="0.25"/>
+      <AnimMapping Name="ArmBend" Value="0.07"/>
+      <AnimMapping Name="Lean" Value="0.78"/>
+      <AnimMapping Name="Hunch" Value="1"/>
+      <AnimMapping Name="HeadTilt" Value="0.75"/>
+    </Emotion>
+    <Emotion Name="Fear">
+      <AnimMapping Name="WalkSpeed" Value="1"/>
+      <AnimMapping Name="Stride" Value="0.294"/>
+      <AnimMapping Name="StepHeight" Value="0.099"/>
+      <AnimMapping Name="BounceHeight" Value="0.037"/>
+      <AnimMapping Name="ArmSwing" Value="0.094"/>
+      <AnimMapping Name="ArmBend" Value="0"/>
+      <AnimMapping Name="Lean" Value="0.7"/>
+      <AnimMapping Name="Hunch" Value="1"/>
+      <AnimMapping Name="HeadTilt" Value="0.539"/>
+    </Emotion>
+    <Emotion Name="Anger">
+      <AnimMapping Name="WalkSpeed" Value="0.67"/>
+      <AnimMapping Name="Stride" Value="0.63"/>
+      <AnimMapping Name="StepHeight" Value="0.31"/>
+      <AnimMapping Name="BounceHeight" Value="0.09"/>
+      <AnimMapping Name="ArmSwing" Value="0.721"/>
+      <AnimMapping Name="ArmBend" Value="0.163"/>
+      <AnimMapping Name="Lean" Value="0.709"/>
+      <AnimMapping Name="Hunch" Value="0"/>
+      <AnimMapping Name="HeadTilt" Value="0.455"/>
+    </Emotion>
+  </Emotions>
 </EmotConfig>

@@ -85,15 +85,12 @@
     <Compile Include="Assets\Scripts\Animation\Anim_IKRoot.cs" />
     <Compile Include="Assets\Scripts\Animation\Anim_IKTarget.cs" />
     <Compile Include="Assets\Scripts\Communication\Comm_EmotToAnim.cs" />
-    <Compile Include="Assets\Scripts\Emotion\Emot_AnimMapping.cs" />
+    <Compile Include="Assets\Scripts\Emotion\Emot_Emotion.cs" />
     <Compile Include="Assets\Scripts\Emotion\Emot_EmotionController.cs" />
-    <Compile Include="Assets\Scripts\Emotion\Emot_EmotionScale.cs" />
     <Compile Include="Assets\Scripts\Scenary\Scenary_ParallaxManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Settings\EmotConfig.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Assets\Settings\EmotConfig.xml" />
     <None Include="Assets\Settings\Personality_Default.xml">
       <SubType>Designer</SubType>
     </None>
