@@ -23,7 +23,7 @@ public class Emot_EmotionControllerEditor : Editor {
         }
     }
 
-    private void DrawEmotionTypeInspector(List<Emot_Emotion> emotionList)
+    private void DrawEmotionTypeInspector(Dictionary<string, Emot_Emotion> emotionList)
     {
         if (emotionList.Count <= 0) return;
 
@@ -31,12 +31,12 @@ public class Emot_EmotionControllerEditor : Editor {
         {
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.Separator();
-            EditorGUILayout.LabelField(emotion.Name, EditorStyles.boldLabel);
-            emotion.MoodValue = EditorGUILayout.Slider("Mood", emotion.MoodValue, 0f, 1f);
-            emotion.PersonalityValue = EditorGUILayout.Slider("Personality", emotion.PersonalityValue, 0f, 1f);
+            EditorGUILayout.LabelField(emotion.Value.Name, EditorStyles.boldLabel);
+            emotion.Value.MoodValue = EditorGUILayout.Slider("Mood", emotion.Value.MoodValue, 0f, 1f);
+            emotion.Value.PersonalityValue = EditorGUILayout.Slider("Personality", emotion.Value.PersonalityValue, 0f, 1f);
             if(EditorGUI.EndChangeCheck())
             {
-                script.NormalisePersonality(emotion.Name);
+                script.NormalisePersonality(emotion.Value.Name);
             }
         }
     }

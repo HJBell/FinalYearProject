@@ -1,10 +1,10 @@
 <Personality>
 	<Emotions>
-    <Emotion Name="Happiness" Value="0.5"/>
-    <Emotion Name="Confidence" Value="0.5"/>
-    <Emotion Name="Peace" Value="0.5"/>
-    <Emotion Name="Sadness" Value="0.5"/>
-    <Emotion Name="Fear" Value="0.5"/>
-    <Emotion Name="Anger" Value="0.5"/>
+    <Emotion Name="Happiness" Value="0.166"/>
+    <Emotion Name="Confidence" Value="0.166"/>
+    <Emotion Name="Peace" Value="0.166"/>
+    <Emotion Name="Sadness" Value="0.166"/>
+    <Emotion Name="Fear" Value="0.166"/>
+    <Emotion Name="Anger" Value="0.166"/>
 	</Emotions>
 </Personality>
