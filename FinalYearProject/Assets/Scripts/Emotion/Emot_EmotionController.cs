@@ -6,8 +6,10 @@ using System.Xml;
 public class Emot_EmotionController : MonoBehaviour {
 
     [HideInInspector]
-    public List<Emot_Emotion> Emotions = new List<Emot_Emotion>();
+    public Dictionary<string, Emot_Emotion> Emotions = new Dictionary<string, Emot_Emotion>();
 
+    [SerializeField]
+    private float MoodChangeSpeed = 0.05f;
     [SerializeField]
     private TextAsset EmotConfigXML;
     [SerializeField]
@@ -17,7 +19,7 @@ public class Emot_EmotionController : MonoBehaviour {
 
     //-----------------------------------Unity Functions-----------------------------------
 
-    private void Start()
+    private void Awake()
     {
         LoadEmotionData(EmotConfigXML);
         LoadPersonality(PersonalityXML);
@@ -26,7 +28,7 @@ public class Emot_EmotionController : MonoBehaviour {
     private void Update()
     {
         foreach (var emotion in Emotions)
-            emotion.UpdateValues();
+            emotion.Value.UpdateValues(MoodChangeSpeed);
     }
 
 
@@ -39,8 +41,8 @@ public class Emot_EmotionController : MonoBehaviour {
 
         foreach (var emotion in Emotions)
         {
-            var adjustedMoodValue = Mathf.Max(emotion.MoodValue, 0.001f);
-            weightedPropertyTotal += emotion.AnimMappings[propertyName] * adjustedMoodValue;
+            var adjustedMoodValue = Mathf.Max(emotion.Value.MoodValue, 0.001f);
+            weightedPropertyTotal += emotion.Value.AnimMappings[propertyName] * adjustedMoodValue;
             moodTotal += adjustedMoodValue;
         }
         
@@ -49,15 +51,17 @@ public class Emot_EmotionController : MonoBehaviour {
 
     public void NormalisePersonality(string emotionToPreserveName)
     {
+        if (!Emotions.ContainsKey(emotionToPreserveName)) return;
+
         Emot_Emotion emotionToScale = null;
         List<Emot_Emotion> allOtherEmotions = new List<Emot_Emotion>();
 
         foreach (var emotion in Emotions)
         {
-            if (emotion.Name == emotionToPreserveName)
-                emotionToScale = emotion;
+            if (emotion.Key == emotionToPreserveName)
+                emotionToScale = emotion.Value;
             else
-                allOtherEmotions.Add(emotion);
+                allOtherEmotions.Add(emotion.Value);
         }
 
         // Find amount to change.
@@ -85,6 +89,31 @@ public class Emot_EmotionController : MonoBehaviour {
         }
     }
 
+    public float GetMoodValue(string emotName)
+    {
+        if (!Emotions.ContainsKey(emotName)) return 0f;
+        return Emotions[emotName].MoodValue;
+    }
+
+    public float GetPersonalityValue(string emotName)
+    {
+        if (!Emotions.ContainsKey(emotName)) return 0f;
+        return Emotions[emotName].PersonalityValue;
+    }
+
+    public void SetMoodValue(string emotName, float value)
+    {
+        if (!Emotions.ContainsKey(emotName)) return;
+        Emotions[emotName].MoodValue = value;
+    }
+
+    public void SetPersonalityValue(string emotName, float value)
+    {
+        if (!Emotions.ContainsKey(emotName)) return;
+        Emotions[emotName].PersonalityValue = value;
+        NormalisePersonality(emotName);
+    }
+
 
     //----------------------------------Private Functions----------------------------------
 
@@ -102,7 +131,7 @@ public class Emot_EmotionController : MonoBehaviour {
         LoadPersonalityFromXMLNode(xmlDoc.GetElementsByTagName("Emotions").Item(0), ref Emotions);
     }
 
-    private void LoadEmotionsFromXMLNode(XmlNode parentNode, ref List<Emot_Emotion> emotionList)
+    private void LoadEmotionsFromXMLNode(XmlNode parentNode, ref Dictionary<string, Emot_Emotion> emotionDict)
     {
         foreach (XmlNode xmlEmotion in parentNode.ChildNodes)
         {
@@ -112,22 +141,17 @@ public class Emot_EmotionController : MonoBehaviour {
             foreach (XmlNode xmlAnimMapping in xmlAnimMappings)
                 emotion.AnimMappings.Add(xmlAnimMapping.Attributes["Name"].Value, float.Parse(xmlAnimMapping.Attributes["Value"].Value));
 
-            emotionList.Add(emotion);
+            emotionDict.Add(emotion.Name, emotion);
         }
     }
 
-    private void LoadPersonalityFromXMLNode(XmlNode parentNode, ref List<Emot_Emotion> emotionList)
+    private void LoadPersonalityFromXMLNode(XmlNode parentNode, ref Dictionary<string, Emot_Emotion> emotionDict)
     {
         foreach (XmlNode xmlEmotion in parentNode.ChildNodes)
         {
-            foreach (var emotion in emotionList)
-            {
-                if (emotion.Name == xmlEmotion.Attributes["Name"].Value)
-                {
-                    emotion.SetPersonalityValue(float.Parse(xmlEmotion.Attributes["Value"].Value));
-                    break;
-                }
-            }
+            string name = xmlEmotion.Attributes["Name"].Value;
+            if (emotionDict.ContainsKey(name))
+                emotionDict[name].SetPersonalityValue(float.Parse(xmlEmotion.Attributes["Value"].Value));
         }
     }
 }

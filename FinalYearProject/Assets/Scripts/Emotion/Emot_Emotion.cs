@@ -21,9 +21,9 @@ public class Emot_Emotion {
         MoodValue = 0.0f;
     }
 
-    public void UpdateValues()
+    public void UpdateValues(float moodChangeSpeed)
     {
-        MoodValue = Mathf.Lerp(MoodValue, PersonalityValue, Time.deltaTime);
+        MoodValue = Mathf.Lerp(MoodValue, PersonalityValue, Time.deltaTime * moodChangeSpeed);
     }
 
     public void SetPersonalityValue(float value)
