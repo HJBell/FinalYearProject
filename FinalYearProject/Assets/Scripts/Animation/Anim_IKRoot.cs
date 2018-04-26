@@ -22,7 +22,7 @@ public class Anim_IKRoot : MonoBehaviour {
 
     //-----------------------------------Unity Functions-----------------------------------
 
-    private void Update()
+    private void LateUpdate()
     {
         UpdateRoot();
     }
@@ -90,7 +90,7 @@ public class Anim_IKRoot : MonoBehaviour {
                 var parentEndPos = (i == 0) ? pPos2D : mBones[i - 1].pEndNode;
                 mBones[i].PositionStartNode(parentEndPos);
 
-                // Applying joint constraints.
+                //Applying joint constraints.
                 if (i <= 0) continue;
 
                 var childBoneAngle = mBones[i].pAngle;

@@ -5,14 +5,46 @@
     <Emotion Name="Peace" Influence="-1"/>
     <Emotion Name="Sadness" Influence="1"/>
     <Emotion Name="Fear" Influence="0"/>
-    <Emotion Name="Anger" Influence="0.2"/>
+    <Emotion Name="Anger" Influence="1"/>
 	</Stimulus>
   <Stimulus Name ="Sun">
-    <Emotion Name="Happiness" Influence="1"/>
-    <Emotion Name="Confidence" Influence="0.5"/>
+    <Emotion Name="Happiness" Influence="0.5"/>
+    <Emotion Name="Confidence" Influence="0.2"/>
     <Emotion Name="Peace" Influence="1"/>
     <Emotion Name="Sadness" Influence="-1"/>
     <Emotion Name="Fear" Influence="-0.2"/>
     <Emotion Name="Anger" Influence="0"/>
+  </Stimulus>
+  <Stimulus Name ="Explosions">
+    <Emotion Name="Happiness" Influence="-0.4"/>
+    <Emotion Name="Confidence" Influence="-0.6"/>
+    <Emotion Name="Peace" Influence="-1"/>
+    <Emotion Name="Sadness" Influence="0"/>
+    <Emotion Name="Fear" Influence="2"/>
+    <Emotion Name="Anger" Influence="0"/>
+  </Stimulus>
+  <Stimulus Name ="Celebration">
+    <Emotion Name="Happiness" Influence="2"/>
+    <Emotion Name="Confidence" Influence="0"/>
+    <Emotion Name="Peace" Influence="0"/>
+    <Emotion Name="Sadness" Influence="-1"/>
+    <Emotion Name="Fear" Influence="-1"/>
+    <Emotion Name="Anger" Influence="-1"/>
+  </Stimulus>
+  <Stimulus Name ="EvilLair">
+    <Emotion Name="Happiness" Influence="-0.5"/>
+    <Emotion Name="Confidence" Influence="0.5"/>
+    <Emotion Name="Peace" Influence="-1"/>
+    <Emotion Name="Sadness" Influence="-1"/>
+    <Emotion Name="Fear" Influence="-1"/>
+    <Emotion Name="Anger" Influence="1"/>
+  </Stimulus>
+  <Stimulus Name ="Palace">
+    <Emotion Name="Happiness" Influence="0.5"/>
+    <Emotion Name="Confidence" Influence="2"/>
+    <Emotion Name="Peace" Influence="0.5"/>
+    <Emotion Name="Sadness" Influence="-0.5"/>
+    <Emotion Name="Fear" Influence="-1"/>
+    <Emotion Name="Anger" Influence="-0.5"/>
   </Stimulus>
 </Stimuli>

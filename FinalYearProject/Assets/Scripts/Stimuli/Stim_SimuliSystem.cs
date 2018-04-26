@@ -5,10 +5,21 @@ using System.Xml;
 
 public class Stim_SimuliSystem : MonoBehaviour {
 
+    [System.Serializable]
+    public struct StimulusImage
+    {
+        public string StimulusName;
+        public Texture2D Texture;
+    }
+
     [SerializeField]
     private TextAsset StimConfigXML;
     [SerializeField]
     private float InfluenceMultiplier = 1f;
+    [SerializeField]
+    private MeshRenderer Background;
+    [SerializeField]
+    private List<StimulusImage> StimulusImages = new List<StimulusImage>();
 
     private Emot_EmotionController mEmotionController;
     private Dictionary<string, Stim_Stimulus> mStimuli = new Dictionary<string, Stim_Stimulus>();
@@ -21,6 +32,7 @@ public class Stim_SimuliSystem : MonoBehaviour {
     {
         mEmotionController = FindObjectOfType<Emot_EmotionController>();
         LoadStimuliFromXML(StimConfigXML);
+        SetStimulus("Sun");
     }
 
     private void Update()
@@ -37,6 +49,14 @@ public class Stim_SimuliSystem : MonoBehaviour {
     {
         if (!mStimuli.ContainsKey(stimName)) return;
         mCurrentStimulus = mStimuli[stimName];
+        foreach (var stimImage in StimulusImages)
+        {
+            if (stimImage.StimulusName == stimName)
+            {
+                Background.material.mainTexture = stimImage.Texture;
+                break;
+            }
+        }
     }
 
 
