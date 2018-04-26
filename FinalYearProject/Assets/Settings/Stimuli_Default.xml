@@ -1,0 +1,18 @@
+<Stimuli>
+	<Stimulus Name ="Rain">
+    <Emotion Name="Happiness" Influence="-1"/>
+    <Emotion Name="Confidence" Influence="-0.2"/>
+    <Emotion Name="Peace" Influence="-1"/>
+    <Emotion Name="Sadness" Influence="1"/>
+    <Emotion Name="Fear" Influence="0"/>
+    <Emotion Name="Anger" Influence="0.2"/>
+	</Stimulus>
+  <Stimulus Name ="Sun">
+    <Emotion Name="Happiness" Influence="1"/>
+    <Emotion Name="Confidence" Influence="0.5"/>
+    <Emotion Name="Peace" Influence="1"/>
+    <Emotion Name="Sadness" Influence="-1"/>
+    <Emotion Name="Fear" Influence="-0.2"/>
+    <Emotion Name="Anger" Influence="0"/>
+  </Stimulus>
+</Stimuli>

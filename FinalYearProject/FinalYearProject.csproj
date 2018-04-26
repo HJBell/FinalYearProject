@@ -135,7 +135,11 @@
     <Compile Include="Assets\Scripts\Emotion\Emot_Emotion.cs" />
     <Compile Include="Assets\Scripts\Emotion\Emot_EmotionController.cs" />
     <Compile Include="Assets\Scripts\Scenary\Scenary_ParallaxManager.cs" />
+    <Compile Include="Assets\Scripts\Stimuli\Stim_SimuliSystem.cs" />
+    <Compile Include="Assets\Scripts\Stimuli\Stim_Stimulus.cs" />
+    <Compile Include="Assets\Scripts\Testing\Test_UserTestManager.cs" />
     <Compile Include="Assets\Scripts\UI\UI_UIManager.cs" />
+    <Compile Include="Assets\Scripts\Utils\HJBUnityUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
@@ -183,6 +187,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Assets\Settings\Personality_Default.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Assets\Settings\Stimuli_Default.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

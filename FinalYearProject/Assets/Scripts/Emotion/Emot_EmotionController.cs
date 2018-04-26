@@ -114,6 +114,19 @@ public class Emot_EmotionController : MonoBehaviour {
         NormalisePersonality(emotName);
     }
 
+    public string[] GetEmotionNames()
+    {
+        string[] emotName = new string[Emotions.Keys.Count];
+        Emotions.Keys.CopyTo(emotName, 0);
+        return emotName;
+    }
+
+    public void InfluenceMood(string emotName, float influenceAmount)
+    {
+        if (!Emotions.ContainsKey(emotName)) return;
+        Emotions[emotName].MoodValue += influenceAmount * Time.deltaTime * MoodChangeSpeed;
+    }
+
 
     //----------------------------------Private Functions----------------------------------
 

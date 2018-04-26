@@ -202,6 +202,7 @@
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Settings\EmotConfig.xml" />
     <None Include="Assets\Settings\Personality_Default.xml" />
+    <None Include="Assets\Settings\Stimuli_Default.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

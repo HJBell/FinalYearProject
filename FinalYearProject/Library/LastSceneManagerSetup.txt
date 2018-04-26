@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Scn_Menu.unity
+- path: Assets/Scenes/Scn_StimDemo.unity
   isLoaded: 1
   isActive: 1
